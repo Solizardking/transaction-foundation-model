@@ -13,24 +13,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .financial_tokenizer import FinancialTabularTokenizer
-from .financial_pipeline import FinancialTokenizerPipeline
-from .pipeline import TokenizerPipeline
-from .base import BaseTokenizer
-from .fixed_vocab import FixedVocabTokenizer
-from .mapping import MappingTokenizer
-from .categorical_hash import CategoricalHashTokenizer
-from .numerical import NumericalTokenizerOptBin
-from .timedelta import TimeDeltaTokenizer
+from .solana_tokenizer import SolanaTokenizerPipeline, tx_to_text
+
+try:
+    from .financial_tokenizer import FinancialTabularTokenizer
+    from .financial_pipeline import FinancialTokenizerPipeline
+    from .pipeline import TokenizerPipeline
+    from .base import BaseTokenizer
+    from .fixed_vocab import FixedVocabTokenizer
+    from .mapping import MappingTokenizer
+    from .categorical_hash import CategoricalHashTokenizer
+    from .numerical import NumericalTokenizerOptBin
+    from .timedelta import TimeDeltaTokenizer
+    _RAPIDS_AVAILABLE = True
+except ImportError:
+    _RAPIDS_AVAILABLE = False
 
 __all__ = [
-    "FinancialTabularTokenizer",
-    "FinancialTokenizerPipeline",
-    "TokenizerPipeline",
-    "BaseTokenizer",
-    "FixedVocabTokenizer",
-    "MappingTokenizer",
-    "CategoricalHashTokenizer",
-    "NumericalTokenizerOptBin",
-    "TimeDeltaTokenizer",
+    "SolanaTokenizerPipeline",
+    "tx_to_text",
 ]
+
+if _RAPIDS_AVAILABLE:
+    __all__ += [
+        "FinancialTabularTokenizer",
+        "FinancialTokenizerPipeline",
+        "TokenizerPipeline",
+        "BaseTokenizer",
+        "FixedVocabTokenizer",
+        "MappingTokenizer",
+        "CategoricalHashTokenizer",
+        "NumericalTokenizerOptBin",
+        "TimeDeltaTokenizer",
+    ]
